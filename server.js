@@ -6,6 +6,7 @@ const app = express();
 
 const PORT = 8000;
 app.use(morgan("mero appchalyo"));
+app.use(express.json());
 
 //apiendpoints
 import taskRouter from "./src/routers/taskRouter.js";
@@ -13,9 +14,9 @@ app.use("/api/v1/task", taskRouter);
 
 ///
 
-app.get("/api/v1/hey", (req, res) => {
-  res.json({ message: "hi" });
-});
+// app.get("/api/v1/hey", (req, res) => {
+//   res.json({ message: "hi" });
+// });
 
 //api endpoints
 //things needed: workflow:crud
