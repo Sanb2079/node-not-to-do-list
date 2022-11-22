@@ -1,12 +1,17 @@
 import express from "express";
 import morgan from "morgan";
+import cors from "cors";
 //morgan is middleware
 
 const app = express();
 
 const PORT = 8000;
-app.use(morgan("mero appchalyo"));
+app.use(morgan("mero app chalyo"));
 app.use(express.json());
+app.use(cors());
+//db connect
+import mongoConnect from "./src/config/dbConfig.js";
+mongoConnect();
 
 //apiendpoints
 import taskRouter from "./src/routers/taskRouter.js";
@@ -37,6 +42,23 @@ app.use("/api/v1/task", taskRouter);
 //   res.json({ message: "TODO DEL METHOD" });
 // });
 ///
+////***************handling alls server errors
+
+///for path error to end pts
+app.use("*", (req, res) => {
+  res.status(400).json({
+    status: "error",
+    message: "invalid request",
+  });
+});
+
+app.use((err, req, res, next) => {
+  res.status(500).json({
+    status: "error",
+    message: err.message,
+  });
+});
+////
 app.listen(PORT, (error) => {
   error
     ? console.log(error)
